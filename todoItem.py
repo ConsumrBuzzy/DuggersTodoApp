@@ -25,8 +25,8 @@ class TodoItem:
     startedAt = None
     
     # Constructor
-    def __init__(self, taskName, isCompleted=False, taskPriority=0, taskDifficulty=0, taskDuration=0, taskCategory="", taskDescription="", estimatedDuration=0):
-        self.taskName = taskName
+    def __init__(self, isCompleted=False, taskPriority=0, taskDifficulty=0, taskDuration=0, taskCategory="", taskDescription="", estimatedDuration=0):
+        self.taskName = self.setTaskName()
         self.isCompleted = isCompleted
         self.createdAt = datetime.now()
         self.completedAt = None
@@ -40,3 +40,14 @@ class TodoItem:
 
     def __str__(self):
         return f"Task Name: {self.taskName}\nTask Priority: {self.taskPriority}\nTask Difficulty: {self.taskDifficulty}\nTask Category: {self.taskCategory}\nTask Description: {self.taskDescription}\nTask Duration: {self.taskDuration}\nTask Completion Status: {self.isCompleted}\nTask Completion Time: {self.completedAt}\nTask Creation Time: {self.createdAt}\nTask Estimated Duration: {self.estimatedDuration}\nTask Start Time: {self.startedAt}"
+
+    def startTask(self):
+        self.startedAt = datetime.now()
+    
+    def setTaskName(self):
+        taskName = input("Enter a task name: ")
+        return taskName
+
+    def completeTask(self):
+        self.isCompleted = True
+        self.completedAt = datetime.now()
