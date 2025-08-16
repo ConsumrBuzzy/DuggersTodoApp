@@ -1,4 +1,3 @@
-from datetime import datetime
 from todoItem import TodoItem
 from todoList import TodoList
 
