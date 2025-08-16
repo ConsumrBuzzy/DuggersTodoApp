@@ -51,3 +51,12 @@ class TodoItem:
     def completeTask(self):
         self.isCompleted = True
         self.completedAt = datetime.now()
+    
+    def editTask(self):
+        self.taskName = self.setTaskName()
+        self.taskPriority = int(input("Enter a task priority: "))
+        self.taskDifficulty = int(input("Enter a task difficulty: "))
+        self.taskDuration = int(input("Enter a task duration: "))
+        self.taskCategory = input("Enter a task category: ")
+        self.taskDescription = input("Enter a task description: ")
+        self.estimatedDuration = int(input("Enter a task estimated duration: "))
