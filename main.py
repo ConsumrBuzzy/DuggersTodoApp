@@ -7,12 +7,12 @@ def main():
     print("Hello World")
     while True:
         user_input = input("Enter 'new' to add a new task, 'q' to quit, 'print' to print the list): ")
-        if user_input.lower() == 'q':
+        if user_input.lower() == 'q' or user_input.lower() == 'quit':
             break
-        elif user_input.lower() == 'print':
+        elif user_input.lower() == 'print' or user_input.lower() == 'p':
             for todo in todo_list:
                 print(todo)
-        elif user_input.lower() == 'new':
+        elif user_input.lower() == 'new' or user_input.lower() == 'n':
             todo_list.append(TodoItem(False, 0, 0, 0, "", "", 0))
             print(todo_list[-1])
         else:
