@@ -1,4 +1,5 @@
 from todoItem import TodoItem
+import JSON
 
 class TodoList:
     # Todo List
@@ -42,3 +43,13 @@ class TodoList:
     # String Representation
     def __str__(self):
         return "\n".join([str(todo) for todo in self.todoList])
+    
+    # Save Todo List
+    def saveTodoList(self):
+        with open("todoList.json", "w") as f:
+            json.dump([todo.__dict__ for todo in self.todoList], f)
+        
+    # Load Todo List
+    def loadTodoList(self):
+        with open("todoList.json", "r") as f:
+            self.todoList = [TodoItem(**todo) for todo in json.load(f)]
