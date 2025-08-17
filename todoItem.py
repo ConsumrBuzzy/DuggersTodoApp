@@ -15,7 +15,7 @@ class TodoItem:
         self.taskCategory = taskCategory
         self.taskDescription = taskDescription
 
-    def __str__(self):
+    def printFull(self):
         return f"Task Name: {self.taskName}\nTask Priority: {self.taskPriority}\nTask Difficulty: {self.taskDifficulty}\nTask Category: {self.taskCategory}\nTask Description: {self.taskDescription}\nTask Duration: {self.taskDuration}\nTask Completion Status: {self.isCompleted}\nTask Completion Time: {self.completedAt}\nTask Creation Time: {self.createdAt}\nTask Estimated Duration: {self.estimatedDuration}\nTask Start Time: {self.startedAt}"
 
     def startTask(self):
