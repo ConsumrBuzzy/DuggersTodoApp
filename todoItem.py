@@ -14,6 +14,10 @@ class TodoItem:
         self.taskDifficulty = taskDifficulty
         self.taskCategory = taskCategory
         self.taskDescription = taskDescription
+        self.isDeleted = False
+
+    def printName(self):
+        return self.taskName
 
     def printFull(self):
         return f"Task Name: {self.taskName}\nTask Priority: {self.taskPriority}\nTask Difficulty: {self.taskDifficulty}\nTask Category: {self.taskCategory}\nTask Description: {self.taskDescription}\nTask Duration: {self.taskDuration}\nTask Completion Status: {self.isCompleted}\nTask Completion Time: {self.completedAt}\nTask Creation Time: {self.createdAt}\nTask Estimated Duration: {self.estimatedDuration}\nTask Start Time: {self.startedAt}"
@@ -86,4 +90,14 @@ class TodoItem:
         return self.startedAt
 
     def getTaskIsDeleted(self):
-        return self.isDeleted
+        return getattr(self, 'isDeleted', False)
+
+    def __eq__(self, other):
+        if isinstance(other, TodoItem):
+            return self.taskName == other.taskName
+        if isinstance(other, str):
+            return self.taskName == other
+        return False
+
+    def __hash__(self):
+        return hash(self.taskName)

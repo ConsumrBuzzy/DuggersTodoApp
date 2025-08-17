@@ -25,13 +25,13 @@ class TodoList:
     # Print Todo List
     def printTodoList(self, full=False):
         if full:
-            return "\n".join([str(todo) for todo in self.todoList])
+            return "\n".join([todo.printFull() for todo in self.todoList])
         else:
             return "\n".join([todo.taskName for todo in self.todoList])
 
     # String Representation
     def __str__(self):
-        return "\n".join([str(todo) for todo in self.todoList])
+        return "\n".join([todo.taskName for todo in self.todoList])
     
     # Save Todo List
     def saveTodoList(self,filename):
@@ -39,11 +39,11 @@ class TodoList:
         for todo in self.todoList:
             # Convert datetime objects to string format
             if todo.createdAt is not None:
-                todo.createdAt = todo.createdAt.isoformat()
+                todo.createdAt = todo.createdAt.strftime("%Y-%m-%d %H:%M:%S")
             if todo.completedAt is not None:
-                todo.completedAt = todo.completedAt.isoformat()
+                todo.completedAt = todo.completedAt.strftime("%Y-%m-%d %H:%M:%S")
             if todo.startedAt is not None:
-                todo.startedAt = todo.startedAt.isoformat()
+                todo.startedAt = todo.startedAt.strftime("%Y-%m-%d %H:%M:%S")
 
             # Append the dictionary representation to the temporary list
             temp_list.append(todo.__dict__)
@@ -56,13 +56,13 @@ class TodoList:
     def loadTodoList(self,filename):
         with open(filename, "r") as file:
             for todo in json.load(file):
+                self.todoList.append(TodoItem(todo['taskName'], todo['isCompleted'], todo['taskPriority'], todo['taskDifficulty'], todo['taskDuration'], todo['taskCategory'], todo['taskDescription'], todo['estimatedDuration'], todo['completedAt'], todo['createdAt'], todo['startedAt']))
                 if todo['createdAt'] is not None:
-                    todo['createdAt'] = datetime.fromisoformat(todo['createdAt'])
+                    todo['createdAt'] = datetime.strptime(todo['createdAt'], "%Y-%m-%d %H:%M:%S")
                 if todo['completedAt'] is not None:
-                    todo['completedAt'] = datetime.fromisoformat(todo['completedAt'])
+                    todo['completedAt'] = datetime.strptime(todo['completedAt'], "%Y-%m-%d %H:%M:%S")
                 if todo['startedAt'] is not None:
-                    todo['startedAt'] = datetime.fromisoformat(todo['startedAt'])
-                self.todoList.append(TodoItem(**todo))
+                    todo['startedAt'] = datetime.strptime(todo['startedAt'], "%Y-%m-%d %H:%M:%S")
         file.close()
     
     def getTodo(self, todoItem):

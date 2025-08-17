@@ -43,19 +43,3 @@ class TodoListManager:
     def newTodo(self):
         taskName = input("Enter a task name: ")
         self.todoList.addTodo(TodoItem(taskName))
-
-    def menu(self):
-        while True:
-            user_input = input("Enter 'new' to add a new task, 'q' to quit, 'list' to print the list, 'save' to save the list, 'load' to load the list: ")
-            if user_input.lower() == 'q' or user_input.lower() == 'quit':
-                break
-            elif user_input.lower() == 'list' or user_input.lower() == 'l':
-                self.printTodoList()
-            elif user_input.lower() == 'new' or user_input.lower() == 'n':
-                self.newTodo()
-            elif user_input.lower() == 'save' or user_input.lower() == 's':
-                self.saveTodoList("todoList.json")
-            elif user_input.lower() == 'load' or user_input.lower() == 'l':
-                self.loadTodoList("todoList.json")
-            else:
-                print("Invalid input")
