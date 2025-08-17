@@ -1,9 +1,9 @@
 from todoItem import TodoItem
-from todoList import TodoList
+from todoListManager import TodoListManager
 
 # Main Function
 def main():
-    todoList = TodoList()
+    todoListManager = TodoListManager()
 
     print("Hello World")
     while True:
@@ -11,15 +11,15 @@ def main():
         if user_input.lower() == 'q' or user_input.lower() == 'quit':
             break
         elif user_input.lower() == 'list' or user_input.lower() == 'l':
-            todoList.printTodoList()
+            todoListManager.printTodoList()
         elif user_input.lower() == 'new' or user_input.lower() == 'n':
             task_name = input("Enter a task name: ")
-            todoList.addTodo(TodoItem(task_name))
-            print(todoList.todoList[-1])
+            todoListManager.addTodo(task_name)
+            print(todoListManager.getTodo(task_name))
         elif user_input.lower() == 'save' or user_input.lower() == 's':
-            todoList.saveTodoList()
+            todoListManager.saveTodoList("todoList.json")
         elif user_input.lower() == 'load' or user_input.lower() == 'l':
-            todoList.loadTodoList()
+            todoListManager.loadTodoList("todoList.json")
         else:
             print("Invalid input")
 

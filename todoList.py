@@ -11,7 +11,10 @@ class TodoList:
         self.todoList = []
     # Add Todo
     def addTodo(self, todoItem):
-        self.todoList.append(todoItem)
+        if not self.todoList.__contains__(todoItem):
+            self.todoList.append(todoItem)
+        else:
+            print("Todo already exists")
     # Remove Todo
     def remove(self, todoItem):
         if todoItem in self.todoList:
@@ -20,35 +23,18 @@ class TodoList:
                     self.todoList.remove(todoItem)
 
     # Print Todo List
-    def printTodoList(self):
-        for todo in self.todoList:
-            print(str(self.todoList.index(todo)+1) + ": " + todo.taskName)
-        user_input = input("Enter the number corresponding to a task to select it: ")
-        if user_input.isdigit():
-            selectedTodo = self.todoList[int(user_input)-1]
-            user_input = input("Enter 'edit' to edit the task, 'complete' to complete the task, 'start' to start the task, 'quit' to quit, 'print' to print the task, 'delete' to delete the task: ")
-            if user_input.lower() == 'edit' or user_input.lower() == 'e':
-                selectedTodo.editTask()
-            elif user_input.lower() == 'complete' or user_input.lower() == 'c':
-                selectedTodo.completeTask()
-            elif user_input.lower() == 'start' or user_input.lower() == 's':
-                selectedTodo.startTask()
-            elif user_input.lower() == 'quit' or user_input.lower() == 'q':
-                return
-            elif user_input.lower() == 'print' or user_input.lower() == 'p':
-                print(selectedTodo)
-            elif user_input.lower() == 'delete' or user_input.lower() == 'd':
-                self.remove(selectedTodo)
+    def printTodoList(self, full=False):
+        if full:
+            return "\n".join([str(todo) for todo in self.todoList])
         else:
-            print("Invalid input")
+            return "\n".join([todo.taskName for todo in self.todoList])
 
     # String Representation
     def __str__(self):
         return "\n".join([str(todo) for todo in self.todoList])
     
     # Save Todo List
-    def saveTodoList(self):
-        filename = "todoList.json"
+    def saveTodoList(self,filename):
         temp_list = []
         for todo in self.todoList:
             # Convert datetime objects to string format
@@ -67,8 +53,7 @@ class TodoList:
             json.dump(temp_list, file, indent=4)
         
     # Load Todo List
-    def loadTodoList(self):
-        filename = "todoList.json"
+    def loadTodoList(self,filename):
         with open(filename, "r") as file:
             for todo in json.load(file):
                 if todo['createdAt'] is not None:
@@ -80,3 +65,7 @@ class TodoList:
                 self.todoList.append(TodoItem(**todo))
         file.close()
     
+    def getTodo(self, todoItem):
+        for todo in self.todoList:
+            if todo == todoItem:
+                return todo
