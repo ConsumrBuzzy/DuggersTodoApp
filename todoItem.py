@@ -2,12 +2,12 @@ from datetime import datetime
 
 class TodoItem:    
     # Constructor
-    def __init__(self, isCompleted=False, taskPriority=0, taskDifficulty=0, taskDuration=0, taskCategory="", taskDescription="", estimatedDuration=0):
-        self.taskName = self.setTaskName()
+    def __init__(self, taskName, isCompleted=False, taskPriority=0, taskDifficulty=0, taskDuration=0, taskCategory="", taskDescription="", estimatedDuration=0, completedAt=None, createdAt=None, startedAt=None):
+        self.taskName = taskName
         self.isCompleted = isCompleted
-        self.createdAt = datetime.now()
-        self.completedAt = None
-        self.startedAt = None
+        self.createdAt = createdAt if createdAt is not None else datetime.now()
+        self.completedAt = completedAt
+        self.startedAt = startedAt
         self.estimatedDuration = estimatedDuration
         self.taskDuration = taskDuration
         self.taskPriority = taskPriority
