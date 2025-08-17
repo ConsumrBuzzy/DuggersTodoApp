@@ -1,30 +1,6 @@
 from datetime import datetime
-from operator import truediv
 
-class TodoItem:
-    # Task Name
-    taskName = ""
-    # Task Description
-    taskDescription = ""
-    # Task Category
-    taskCategory = ""
-    # Task Priority
-    taskPriority = 0
-    # Task Difficulty
-    taskDifficulty = 0
-    # Task Duration
-    taskDuration = 0
-    # Task Completion Status
-    isCompleted = False
-    # Task Completion Time
-    completedAt = None
-    # Task Creation Time
-    createdAt = None
-    # Task Estimated Duration
-    estimatedDuration = 0
-    # Task Start Time
-    startedAt = None
-    
+class TodoItem:    
     # Constructor
     def __init__(self, isCompleted=False, taskPriority=0, taskDifficulty=0, taskDuration=0, taskCategory="", taskDescription="", estimatedDuration=0):
         self.taskName = self.setTaskName()
