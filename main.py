@@ -5,48 +5,50 @@ from todoListManager import TodoListManager
 def main():
     todoListManager = TodoListManager()
 
-    print("Hello World")
+    print("Dugger's TODO App")
+    print("Type 'help' to see commands.")
     while True:
-        user_input = input("Enter 'new' to add a new task, 'q' to quit, 'list' to print the list, 'save' to save the list, 'load' to load the list: ")
-        if user_input.lower() == 'q' or user_input.lower() == 'quit':
+        user_input = input("Command> ").strip().lower()
+        if user_input in ('q', 'quit', 'exit'):
             break
-        elif user_input.lower() == 'list' or user_input.lower() == 'l':
+        elif user_input in ('help', 'h'):
+            print("Available commands:")
+            print("  new       - add a new task")
+            print("  list      - list tasks (optionally full)")
+            print("  edit      - edit a task")
+            print("  complete  - mark a task complete")
+            print("  start     - start a task")
+            print("  delete    - delete a task")
+            print("  save      - save to todoList.json")
+            print("  load      - load from todoList.json")
+            print("  quit      - exit the program")
+        elif user_input == 'list':
             todoListManager.printTodoList()
-        elif user_input.lower() == 'new' or user_input.lower() == 'n':
-            task_name = input("Enter a task name, or '(l)ist' to print the list: ")
-            if (task_name.lower() == "list" or task_name.lower() == "l"):
-                todoListManager.printTodoList()
-            else:
+        elif user_input == 'new':
+            task_name = input("Enter a task name: ").strip()
+            if task_name:
                 todoListManager.addTodo(task_name)
-                print(todoListManager.getTodo(task_name))
-        elif user_input.lower() == 'edit' or user_input.lower() == 'e':
-            task_name = input("Enter a task name, or '(l)ist' to print the list: ")
-            if (task_name.lower() == "list" or task_name.lower() == "l"):
-                todoListManager.printTodoList()
+                print(f"Added: {task_name}")
             else:
-                todoListManager.editTodo(task_name)
-        elif user_input.lower() == 'complete' or user_input.lower() == 'c':
-            task_name = input("Enter a task name, or '(l)ist' to print the list: ")
-            if (task_name.lower() == "list" or task_name.lower() == "l"):
-                todoListManager.printTodoList()
-            else:
-                todoListManager.completeTodo(task_name)
-        elif user_input.lower() == 'start' or user_input.lower() == 's':
-            task_name = input("Enter a task name, or '(l)ist' to print the list: ")
-            if (task_name.lower() == "list" or task_name.lower() == "l"):
-                todoListManager.printTodoList()
-            else:
-                todoListManager.startTodo(task_name)
-        elif user_input.lower() == 'delete' or user_input.lower() == 'd':
-            task_name = input("Enter a task name, or '(l)ist' to print the list: ")
-            if (task_name.lower() == "list" or task_name.lower() == "l"):
-                todoListManager.printTodoList()
-            else:
-                todoListManager.deleteTodo(task_name)
-        elif user_input.lower() == 'save' or user_input.lower() == 's':
+                print("Task name cannot be empty.")
+        elif user_input == 'edit':
+            task_name = input("Enter a task name to edit: ").strip()
+            todoListManager.editTodo(task_name)
+        elif user_input == 'complete':
+            task_name = input("Enter a task name to complete: ").strip()
+            todoListManager.completeTodo(task_name)
+        elif user_input == 'start':
+            task_name = input("Enter a task name to start: ").strip()
+            todoListManager.startTodo(task_name)
+        elif user_input == 'delete':
+            task_name = input("Enter a task name to delete: ").strip()
+            todoListManager.deleteTodo(task_name)
+        elif user_input == 'save':
             todoListManager.saveTodoList("todoList.json")
-        elif user_input.lower() == 'load' or user_input.lower() == 'l':
+            print("Saved to todoList.json")
+        elif user_input == 'load':
             todoListManager.loadTodoList("todoList.json")
+            print("Loaded from todoList.json")
         else:
             print("Invalid input")
 
