@@ -3,11 +3,7 @@ from datetime import datetime
 import json
 
 class TodoList:
-    # Todo List
-    todoList = []
     
-    # Full Task Info
-    fullTaskInfo = False
 
     # Constructor
     def __init__(self):
@@ -28,15 +24,11 @@ class TodoList:
         self.todoList = [t for t in self.todoList if t.taskName != name]
 
     # Print Todo List
-    def printTodoList(self):
-        if self.fullTaskInfo:
+    def printTodoList(self, full: bool = False):
+        if full:
             return "\n".join([todo.printFull() for todo in self.todoList])
         else:
             return "\n".join([todo.taskName for todo in self.todoList])
-
-    # String Representation
-    def __str__(self):
-        return "\n".join([todo.taskName for todo in self.todoList])
     
     # Save Todo List
     def saveTodoList(self,filename):
@@ -60,26 +52,51 @@ class TodoList:
         
     # Load Todo List
     def loadTodoList(self,filename):
-        self.todoList = []
-        with open(filename, "r") as file:
-            for todo in json.load(file):
-                createdAt = datetime.strptime(todo['createdAt'], "%Y-%m-%d %H:%M:%S") if todo.get('createdAt') else None
-                completedAt = datetime.strptime(todo['completedAt'], "%Y-%m-%d %H:%M:%S") if todo.get('completedAt') else None
-                startedAt = datetime.strptime(todo['startedAt'], "%Y-%m-%d %H:%M:%S") if todo.get('startedAt') else None
-                item = TodoItem(
-                    taskName=todo['taskName'],
-                    isCompleted=todo.get('isCompleted', False),
-                    taskPriority=todo.get('taskPriority', 0),
-                    taskDifficulty=todo.get('taskDifficulty', 0),
-                    taskDuration=todo.get('taskDuration', 0),
-                    taskCategory=todo.get('taskCategory', ""),
-                    taskDescription=todo.get('taskDescription', ""),
-                    estimatedDuration=todo.get('estimatedDuration', 0),
-                    completedAt=completedAt,
-                    createdAt=createdAt,
-                    startedAt=startedAt,
-                )
-                self.todoList.append(item)
+        try:
+            with open(filename, "r") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            print("No saved todo list found.")
+            return False
+        except json.JSONDecodeError:
+            print("Could not read todo list (invalid JSON).")
+            return False
+
+        new_list = []
+        for todo in data:
+            raw_created = todo.get('createdAt')
+            raw_completed = todo.get('completedAt')
+            raw_started = todo.get('startedAt')
+            try:
+                createdAt = datetime.strptime(raw_created, "%Y-%m-%d %H:%M:%S") if raw_created else None
+            except Exception:
+                createdAt = None
+            try:
+                completedAt = datetime.strptime(raw_completed, "%Y-%m-%d %H:%M:%S") if raw_completed else None
+            except Exception:
+                completedAt = None
+            try:
+                startedAt = datetime.strptime(raw_started, "%Y-%m-%d %H:%M:%S") if raw_started else None
+            except Exception:
+                startedAt = None
+
+            item = TodoItem(
+                taskName=todo.get('taskName', ''),
+                isCompleted=todo.get('isCompleted', False),
+                taskPriority=todo.get('taskPriority', 0),
+                taskDifficulty=todo.get('taskDifficulty', 0),
+                taskDuration=todo.get('taskDuration', 0),
+                taskCategory=todo.get('taskCategory', ""),
+                taskDescription=todo.get('taskDescription', ""),
+                estimatedDuration=todo.get('estimatedDuration', 0),
+                completedAt=completedAt,
+                createdAt=createdAt,
+                startedAt=startedAt,
+            )
+            new_list.append(item)
+
+        self.todoList = new_list
+        return True
     
     # Get Todo
     def getTodo(self, todoItem):
@@ -124,5 +141,3 @@ class TodoList:
     # String Representation
     def __str__(self):
         return "\n".join([todo.taskName for todo in self.todoList])
-
-        
