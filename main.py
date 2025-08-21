@@ -68,7 +68,7 @@ def main():
     # Command Dictionary
     COMMANDS = {
         'help': show_help(todoListManager),
-        'list': todoListManager.printTodoList(full=True),
+        'list': todoListManager.printTodoList(),
         'new': handle_new(todoListManager),
         'edit': handle_edit(todoListManager),
         'complete': handle_complete(todoListManager),

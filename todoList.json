@@ -1,1 +1,15 @@
-[]
+[
+    {
+        "taskName": "task1",
+        "isCompleted": false,
+        "taskPriority": 0,
+        "taskDifficulty": 0,
+        "taskDuration": 0,
+        "taskCategory": "",
+        "taskDescription": "",
+        "estimatedDuration": 0,
+        "completedAt": null,
+        "createdAt": "2025-08-21 19:37:49",
+        "startedAt": null
+    }
+]

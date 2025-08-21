@@ -5,6 +5,10 @@ import json
 class TodoList:
     # Todo List
     todoList = []
+    
+    # Full Task Info
+    fullTaskInfo = False
+
     # Constructor
     def __init__(self):
         self.todoList = []
@@ -17,14 +21,15 @@ class TodoList:
             self.todoList.append(item)
         else:
             print("Todo already exists")
+    
     # Remove Todo
     def remove(self, todoItem):
         name = todoItem.taskName if isinstance(todoItem, TodoItem) else str(todoItem)
         self.todoList = [t for t in self.todoList if t.taskName != name]
 
     # Print Todo List
-    def printTodoList(self, full=False):
-        if full:
+    def printTodoList(self):
+        if self.fullTaskInfo:
             return "\n".join([todo.printFull() for todo in self.todoList])
         else:
             return "\n".join([todo.taskName for todo in self.todoList])
@@ -76,6 +81,7 @@ class TodoList:
                 )
                 self.todoList.append(item)
     
+    # Get Todo
     def getTodo(self, todoItem):
         for todo in self.todoList:
             if todo == todoItem:
@@ -90,6 +96,7 @@ class TodoList:
         else:
             print("Todo not found")
 
+    # Complete Todo
     def completeTodo(self, todoItem):
         todo = self.getTodo(todoItem)
         if todo:
@@ -97,6 +104,7 @@ class TodoList:
         else:
             print("Todo not found")
 
+    # Start Todo
     def startTodo(self, todoItem):
         todo = self.getTodo(todoItem)
         if todo:
@@ -104,6 +112,7 @@ class TodoList:
         else:
             print("Todo not found")
 
+    # Delete Todo
     def deleteTodo(self, todoItem):
         todo = self.getTodo(todoItem)
         if todo:
@@ -111,3 +120,9 @@ class TodoList:
             self.remove(todo)
         else:
             print("Todo not found")
+    
+    # String Representation
+    def __str__(self):
+        return "\n".join([todo.taskName for todo in self.todoList])
+
+        
