@@ -16,7 +16,7 @@ class TodoListManager:
         self.todoList.saveTodoList(filename)
     
     def loadTodoList(self, filename):
-        self.todoList.loadTodoList(filename)
+        return self.todoList.loadTodoList(filename)
     
     def printTodoList(self):
         userAsk = input("(f)ull task info? (Otherwise only names): ").strip().lower()
