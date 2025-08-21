@@ -13,6 +13,7 @@ def show_help(todoListManager):
     print("  load      - load from todoList.json")
     print("  quit      - exit the program")
 
+# Add a new task
 def handle_new(todoListManager):
     task_name = input("Enter a task name: ").strip()
     if task_name:
@@ -21,30 +22,37 @@ def handle_new(todoListManager):
     else:
         print("Task name cannot be empty.")
 
+# Edit a task
 def handle_edit(todoListManager):
     task_name = input("Enter a task name to edit: ").strip()
     todoListManager.editTodo(task_name)
 
+# Mark a task as complete
 def handle_complete(todoListManager):
     task_name = input("Enter a task name to complete: ").strip()
     todoListManager.completeTodo(task_name)
 
+# Start a task
 def handle_start(todoListManager):
     task_name = input("Enter a task name to start: ").strip()
     todoListManager.startTodo(task_name)
 
+# Delete a task
 def handle_delete(todoListManager):
     task_name = input("Enter a task name to delete: ").strip()
     todoListManager.deleteTodo(task_name)
 
+# Save the todo list to a file
 def handle_save(todoListManager):
     todoListManager.saveTodoList("todoList.json")
     print("Saved to todoList.json")
 
+# Load the todo list from a file
 def handle_load(todoListManager):
     todoListManager.loadTodoList("todoList.json")
     print("Loaded from todoList.json")
 
+# Quit the program
 def handle_quit(todoListManager):
     todoListManager.saveTodoList("todoList.json")
     print("Goodbye!")
@@ -57,6 +65,7 @@ def main():
     print("Dugger's TODO App")
     print("Type 'help' to see commands.")
 
+    # Command Dictionary
     COMMANDS = {
         'help': show_help(todoListManager),
         'list': todoListManager.printTodoList(full=True),
@@ -70,7 +79,7 @@ def main():
         'quit': handle_quit(todoListManager),
     }
 
-
+    # Main Loop
     while True:
         user_input = input("Command> ").strip().lower()
         if user_input in COMMANDS:
