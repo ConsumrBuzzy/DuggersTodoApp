@@ -1,7 +1,7 @@
 from todoItem import TodoItem
 from todoListManager import TodoListManager
 
-def cmd_list():
+def show_help():
     print("Available commands:")
     print("  new       - add a new task")
     print("  list      - list tasks (optionally full)")
@@ -19,14 +19,16 @@ def main():
 
     print("Dugger's TODO App")
     print("Type 'help' to see commands.")
+
+
     while True:
         user_input = input("Command> ").strip().lower()
         if user_input in ('q', 'quit', 'exit'):
             break
         elif user_input in ('help', 'h'):
-            cmd_list()        
+            show_help()        
         elif user_input == 'list':
-            todoListManager.printTodoList()
+            todoListManager.printTodoList(full=True)
         elif user_input == 'new':
             task_name = input("Enter a task name: ").strip()
             if task_name:
