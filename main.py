@@ -1,7 +1,7 @@
 from todoItem import TodoItem
-from todoListManager import TodoListManager
+from todoListManager import TodoListManager as manager
 
-def show_help():
+def show_help(todoListManager):
     print("Available commands:")
     print("  new       - add a new task")
     print("  list      - list tasks (optionally full)")
@@ -13,47 +13,68 @@ def show_help():
     print("  load      - load from todoList.json")
     print("  quit      - exit the program")
 
+def handle_new(todoListManager):
+    task_name = input("Enter a task name: ").strip()
+    if task_name:
+        todoListManager.addTodo(task_name)
+        print(f"Added: {task_name}")
+    else:
+        print("Task name cannot be empty.")
+
+def handle_edit(todoListManager):
+    task_name = input("Enter a task name to edit: ").strip()
+    todoListManager.editTodo(task_name)
+
+def handle_complete(todoListManager):
+    task_name = input("Enter a task name to complete: ").strip()
+    todoListManager.completeTodo(task_name)
+
+def handle_start(todoListManager):
+    task_name = input("Enter a task name to start: ").strip()
+    todoListManager.startTodo(task_name)
+
+def handle_delete(todoListManager):
+    task_name = input("Enter a task name to delete: ").strip()
+    todoListManager.deleteTodo(task_name)
+
+def handle_save(todoListManager):
+    todoListManager.saveTodoList("todoList.json")
+    print("Saved to todoList.json")
+
+def handle_load(todoListManager):
+    todoListManager.loadTodoList("todoList.json")
+    print("Loaded from todoList.json")
+
+def handle_quit(todoListManager):
+    todoListManager.saveTodoList("todoList.json")
+    print("Goodbye!")
+    exit()
+
 # Main Function
 def main():
-    todoListManager = TodoListManager()
+    todoListManager = manager()
 
     print("Dugger's TODO App")
     print("Type 'help' to see commands.")
 
+    COMMANDS = {
+        'help': show_help(todoListManager),
+        'list': todoListManager.printTodoList(full=True),
+        'new': handle_new(todoListManager),
+        'edit': handle_edit(todoListManager),
+        'complete': handle_complete(todoListManager),
+        'start': handle_start(todoListManager),
+        'delete': handle_delete(todoListManager),
+        'save': handle_save(todoListManager),
+        'load': handle_load(todoListManager),
+        'quit': handle_quit(todoListManager),
+    }
+
 
     while True:
         user_input = input("Command> ").strip().lower()
-        if user_input in ('q', 'quit', 'exit'):
-            break
-        elif user_input in ('help', 'h'):
-            show_help()        
-        elif user_input == 'list':
-            todoListManager.printTodoList(full=True)
-        elif user_input == 'new':
-            task_name = input("Enter a task name: ").strip()
-            if task_name:
-                todoListManager.addTodo(task_name)
-                print(f"Added: {task_name}")
-            else:
-                print("Task name cannot be empty.")
-        elif user_input == 'edit':
-            task_name = input("Enter a task name to edit: ").strip()
-            todoListManager.editTodo(task_name)
-        elif user_input == 'complete':
-            task_name = input("Enter a task name to complete: ").strip()
-            todoListManager.completeTodo(task_name)
-        elif user_input == 'start':
-            task_name = input("Enter a task name to start: ").strip()
-            todoListManager.startTodo(task_name)
-        elif user_input == 'delete':
-            task_name = input("Enter a task name to delete: ").strip()
-            todoListManager.deleteTodo(task_name)
-        elif user_input == 'save':
-            todoListManager.saveTodoList("todoList.json")
-            print("Saved to todoList.json")
-        elif user_input == 'load':
-            todoListManager.loadTodoList("todoList.json")
-            print("Loaded from todoList.json")
+        if user_input in COMMANDS:
+            COMMANDS[user_input]()
         else:
             print("Invalid input")
 
