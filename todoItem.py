@@ -25,45 +25,28 @@ class TodoItem:
     def startTask(self):
         self.startedAt = datetime.now()
     
-    def setTaskName(self):
-        taskName = input("Enter a task name: ")
-        return taskName
+    # Pure setters (no I/O) used by CLI layer
+    def set_name(self, name: str):
+        self.taskName = name
+
+    def set_priority(self, priority: int):
+        self.taskPriority = priority
+
+    def set_difficulty(self, difficulty: int):
+        self.taskDifficulty = difficulty
+
+    def set_duration(self, duration: int):
+        self.taskDuration = duration
+
+    def set_category(self, category: str):
+        self.taskCategory = category
+
+    def set_description(self, description: str):
+        self.taskDescription = description
 
     def completeTask(self):
         self.isCompleted = True
         self.completedAt = datetime.now()
-    
-    def editTask(self):
-        while True:
-            user_input = input("Enter 'name' to edit the task name, 'priority' to edit the task priority, 'difficulty' to edit the task difficulty, 'duration' to edit the task duration, 'category' to edit the task category, 'description' to edit the task description, 'quit' to quit: ")
-            if user_input.lower() == 'quit' or user_input.lower() == 'q':
-                break
-            elif user_input.lower() == 'name' or user_input.lower() == 'n':
-                self.taskName = self.setTaskName()
-            elif user_input.lower() == 'priority' or user_input.lower() == 'p':
-                raw = input("Enter a task priority (integer): ")
-                try:
-                    self.taskPriority = int(raw)
-                except ValueError:
-                    print("Invalid number. Priority unchanged.")
-            elif user_input.lower() == 'difficulty' or user_input.lower() == 'd':
-                raw = input("Enter a task difficulty (integer): ")
-                try:
-                    self.taskDifficulty = int(raw)
-                except ValueError:
-                    print("Invalid number. Difficulty unchanged.")
-            elif user_input.lower() == 'duration' or user_input.lower() == 'dur':
-                raw = input("Enter a task duration (integer minutes): ")
-                try:
-                    self.taskDuration = int(raw)
-                except ValueError:
-                    print("Invalid number. Duration unchanged.")
-            elif user_input.lower() == 'category' or user_input.lower() == 'cat':
-                self.taskCategory = input("Enter a task category: ")
-            elif user_input.lower() == 'description' or user_input.lower() == 'desc':
-                self.taskDescription = input("Enter a task description: ")
-            else:
-                print("Invalid input")
     
     def deleteTask(self):
         self.isDeleted = True
