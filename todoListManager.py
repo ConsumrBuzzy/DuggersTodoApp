@@ -19,11 +19,9 @@ class TodoListManager:
         self.todoList.loadTodoList(filename)
     
     def printTodoList(self):
-        userAsk = input("'(f)ull Task Info? (Otherwise only Name of Tasks.)").lower()
-        if userAsk == 'full' or userAsk == 'f':
-            print(self.todoList.printTodoList(full=True))
-        else:
-            print(self.todoList.printTodoList(full=False))
+        userAsk = input("(f)ull task info? (Otherwise only names): ").strip().lower()
+        full = userAsk in ('full', 'f', 'yes', 'y')
+        print(self.todoList.printTodoList(full=full))
 
     def editTodo(self, todoItem):
         self.todoList.editTodo(todoItem)
