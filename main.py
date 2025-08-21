@@ -12,6 +12,16 @@ def show_help(todoListManager):
     print("  save      - save to todoList.json")
     print("  load      - load from todoList.json")
     print("  quit      - exit the program")
+    print("  help      - show this help message")
+    print("  set       - one-shot edit: change a single field (name|priority|difficulty|duration|category|description)")
+    print("  e.g. set <task name> <field> <value>")
+    print("  e.g. set <task name> name <new name>")
+    print("  e.g. set <task name> priority <new priority>")
+    print("  e.g. set <task name> difficulty <new difficulty>")
+    print("  e.g. set <task name> duration <new duration>")
+    print("  e.g. set <task name> category <new category>")
+    print("  e.g. set <task name> description <new description>")
+    print("  e.g. set <task name> estimatedDuration <new estimated duration>")
 
 # Add a new task
 def handle_new(todo_list: TodoList):
@@ -75,6 +85,55 @@ def handle_edit(todo_list: TodoList):
         else:
             print("Invalid choice.")
 
+# One-shot setter (non-interactive single field update)
+def handle_set(todo_list: TodoList):
+    name = input("Task name: ").strip()
+    if not name:
+        print("Task name cannot be empty.")
+        return
+    todo = todo_list.getTodoByName(name)
+    if not todo:
+        print("Todo not found.")
+        return
+    field = input("Field (name|priority|difficulty|duration|category|description): ").strip().lower()
+    if field in ("name", "n"):
+        new_val = input("New name: ").strip()
+        if new_val:
+            todo.set_name(new_val)
+            print("Name updated.")
+        else:
+            print("Name cannot be empty.")
+    elif field in ("priority", "p"):
+        raw = input("New priority (integer): ").strip()
+        try:
+            todo.set_priority(int(raw))
+            print("Priority updated.")
+        except ValueError:
+            print("Invalid number.")
+    elif field in ("difficulty", "d"):
+        raw = input("New difficulty (integer): ").strip()
+        try:
+            todo.set_difficulty(int(raw))
+            print("Difficulty updated.")
+        except ValueError:
+            print("Invalid number.")
+    elif field in ("duration", "dur"):
+        raw = input("New duration (integer minutes): ").strip()
+        try:
+            todo.set_duration(int(raw))
+            print("Duration updated.")
+        except ValueError:
+            print("Invalid number.")
+    elif field in ("category", "cat"):
+        todo.set_category(input("New category: "))
+        print("Category updated.")
+        
+    elif field in ("description", "desc"):
+        todo.set_description(input("New description: "))
+        print("Description updated.")
+    else:
+        print("Unknown field.")
+
 # Mark a task as complete
 def handle_complete(todo_list: TodoList):
     task_name = input("Enter a task name to complete: ").strip()
@@ -136,6 +195,7 @@ def main():
         'list': lambda: handle_list(todo_list),
         'new': lambda: handle_new(todo_list),
         'edit': lambda: handle_edit(todo_list),
+        'set': lambda: handle_set(todo_list),
         'complete': lambda: handle_complete(todo_list),
         'start': lambda: handle_start(todo_list),
         'delete': lambda: handle_delete(todo_list),
