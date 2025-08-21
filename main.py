@@ -7,11 +7,11 @@ def cmd_list():
     print("  list      - list tasks (optionally full)")
     print("  edit      - edit a task")
     print("  complete  - mark a task complete")
-            print("  start     - start a task")
-            print("  delete    - delete a task")
-            print("  save      - save to todoList.json")
-            print("  load      - load from todoList.json")
-            print("  quit      - exit the program")
+    print("  start     - start a task")
+    print("  delete    - delete a task")
+    print("  save      - save to todoList.json")
+    print("  load      - load from todoList.json")
+    print("  quit      - exit the program")
 
 # Main Function
 def main():
@@ -24,7 +24,7 @@ def main():
         if user_input in ('q', 'quit', 'exit'):
             break
         elif user_input in ('help', 'h'):
-            
+            cmd_list()        
         elif user_input == 'list':
             todoListManager.printTodoList()
         elif user_input == 'new':
