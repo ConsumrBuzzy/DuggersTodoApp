@@ -1,6 +1,18 @@
 from todoItem import TodoItem
 from todoListManager import TodoListManager
 
+def cmd_list():
+    print("Available commands:")
+    print("  new       - add a new task")
+    print("  list      - list tasks (optionally full)")
+    print("  edit      - edit a task")
+    print("  complete  - mark a task complete")
+            print("  start     - start a task")
+            print("  delete    - delete a task")
+            print("  save      - save to todoList.json")
+            print("  load      - load from todoList.json")
+            print("  quit      - exit the program")
+
 # Main Function
 def main():
     todoListManager = TodoListManager()
@@ -12,16 +24,7 @@ def main():
         if user_input in ('q', 'quit', 'exit'):
             break
         elif user_input in ('help', 'h'):
-            print("Available commands:")
-            print("  new       - add a new task")
-            print("  list      - list tasks (optionally full)")
-            print("  edit      - edit a task")
-            print("  complete  - mark a task complete")
-            print("  start     - start a task")
-            print("  delete    - delete a task")
-            print("  save      - save to todoList.json")
-            print("  load      - load from todoList.json")
-            print("  quit      - exit the program")
+            
         elif user_input == 'list':
             todoListManager.printTodoList()
         elif user_input == 'new':
