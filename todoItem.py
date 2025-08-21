@@ -41,11 +41,23 @@ class TodoItem:
             elif user_input.lower() == 'name' or user_input.lower() == 'n':
                 self.taskName = self.setTaskName()
             elif user_input.lower() == 'priority' or user_input.lower() == 'p':
-                self.taskPriority = int(input("Enter a task priority: "))
+                raw = input("Enter a task priority (integer): ")
+                try:
+                    self.taskPriority = int(raw)
+                except ValueError:
+                    print("Invalid number. Priority unchanged.")
             elif user_input.lower() == 'difficulty' or user_input.lower() == 'd':
-                self.taskDifficulty = int(input("Enter a task difficulty: "))
+                raw = input("Enter a task difficulty (integer): ")
+                try:
+                    self.taskDifficulty = int(raw)
+                except ValueError:
+                    print("Invalid number. Difficulty unchanged.")
             elif user_input.lower() == 'duration' or user_input.lower() == 'dur':
-                self.taskDuration = int(input("Enter a task duration: "))
+                raw = input("Enter a task duration (integer minutes): ")
+                try:
+                    self.taskDuration = int(raw)
+                except ValueError:
+                    print("Invalid number. Duration unchanged.")
             elif user_input.lower() == 'category' or user_input.lower() == 'cat':
                 self.taskCategory = input("Enter a task category: ")
             elif user_input.lower() == 'description' or user_input.lower() == 'desc':
