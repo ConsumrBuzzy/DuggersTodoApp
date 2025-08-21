@@ -49,8 +49,10 @@ def handle_save(todoListManager):
 
 # Load the todo list from a file
 def handle_load(todoListManager):
-    todoListManager.loadTodoList("todoList.json")
-    print("Loaded from todoList.json")
+    if todoListManager.loadTodoList("todoList.json"):
+        print("Loaded from todoList.json")
+    else:
+        print("Load failed.")
 
 # Quit the program
 def handle_quit(todoListManager):
@@ -67,16 +69,16 @@ def main():
 
     # Command Dictionary
     COMMANDS = {
-        'help': show_help(todoListManager),
-        'list': todoListManager.printTodoList(),
-        'new': handle_new(todoListManager),
-        'edit': handle_edit(todoListManager),
-        'complete': handle_complete(todoListManager),
-        'start': handle_start(todoListManager),
-        'delete': handle_delete(todoListManager),
-        'save': handle_save(todoListManager),
-        'load': handle_load(todoListManager),
-        'quit': handle_quit(todoListManager),
+        'help': lambda: show_help(todoListManager),
+        'list': lambda: todoListManager.printTodoList(),
+        'new': lambda: handle_new(todoListManager),
+        'edit': lambda: handle_edit(todoListManager),
+        'complete': lambda: handle_complete(todoListManager),
+        'start': lambda: handle_start(todoListManager),
+        'delete': lambda: handle_delete(todoListManager),
+        'save': lambda: handle_save(todoListManager),
+        'load': lambda: handle_load(todoListManager),
+        'quit': lambda: handle_quit(todoListManager),
     }
 
     # Main Loop
