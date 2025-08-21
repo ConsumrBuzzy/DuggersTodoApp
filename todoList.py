@@ -15,13 +15,16 @@ class TodoList:
         # Ensure no duplicates by taskName
         if all(existing.taskName != item.taskName for existing in self.todoList):
             self.todoList.append(item)
+            return True
         else:
-            print("Todo already exists")
+            return False
     
     # Remove Todo
     def remove(self, todoItem):
         name = todoItem.taskName if isinstance(todoItem, TodoItem) else str(todoItem)
+        before = len(self.todoList)
         self.todoList = [t for t in self.todoList if t.taskName != name]
+        return len(self.todoList) < before
 
     # Print Todo List
     def printTodoList(self, full: bool = False):
@@ -29,6 +32,19 @@ class TodoList:
             return "\n".join([todo.printFull() for todo in self.todoList])
         else:
             return "\n".join([todo.taskName for todo in self.todoList])
+
+    def getTodoByName(self, name: str, case_insensitive: bool = True):
+        if case_insensitive:
+            lname = name.lower()
+            for t in self.todoList:
+                if t.taskName.lower() == lname:
+                    return t
+            return None
+        else:
+            for t in self.todoList:
+                if t.taskName == name:
+                    return t
+            return None
     
     # Save Todo List
     def saveTodoList(self,filename):
@@ -107,36 +123,32 @@ class TodoList:
 
     # Convenience operations by name
     def editTodo(self, todoItem):
-        todo = self.getTodo(todoItem)
-        if todo:
-            todo.editTask()
-        else:
-            print("Todo not found")
+        # Domain no longer handles interactive editing; perform in CLI.
+        return False
 
     # Complete Todo
     def completeTodo(self, todoItem):
         todo = self.getTodo(todoItem)
         if todo:
             todo.completeTask()
-        else:
-            print("Todo not found")
+            return True
+        return False
 
     # Start Todo
     def startTodo(self, todoItem):
         todo = self.getTodo(todoItem)
         if todo:
             todo.startTask()
-        else:
-            print("Todo not found")
+            return True
+        return False
 
     # Delete Todo
     def deleteTodo(self, todoItem):
         todo = self.getTodo(todoItem)
         if todo:
             todo.deleteTask()
-            self.remove(todo)
-        else:
-            print("Todo not found")
+            return self.remove(todo)
+        return False
     
     # String Representation
     def __str__(self):
