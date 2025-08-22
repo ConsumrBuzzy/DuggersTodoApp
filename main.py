@@ -218,7 +218,36 @@ def handle_load(todo_list: TodoList):
 def handle_list(todo_list: TodoList):
     userAsk = input("(f)ull task info? (Otherwise only names): ").strip().lower()
     full = userAsk in ("full", "f", "yes", "y")
-    print(todo_list.printTodoList(full=full))
+
+    # Optional sorting
+    sort_key = input("Sort by (name|priority|difficulty|duration|estimated|none): ").strip().lower()
+    valid_sorts = {"name", "priority", "difficulty", "duration", "estimated", "none", ""}
+    if sort_key not in valid_sorts:
+        print("Unknown sort key. Showing unsorted.")
+        sort_key = "none"
+
+    items = list(todo_list.todoList)
+    if sort_key == "name":
+        items.sort(key=lambda t: (t.taskName or "").lower())
+    elif sort_key == "priority":
+        items.sort(key=lambda t: t.taskPriority)
+    elif sort_key == "difficulty":
+        items.sort(key=lambda t: t.taskDifficulty)
+    elif sort_key == "duration":
+        items.sort(key=lambda t: t.taskDuration)
+    elif sort_key == "estimated":
+        items.sort(key=lambda t: t.estimatedDuration)
+
+    lines = []
+    for idx, t in enumerate(items, start=1):
+        mark = "[x]" if t.isCompleted else "[ ]"
+        if full:
+            lines.append(
+                f"{idx:>2}. {mark} {t.taskName} | prio={t.taskPriority} diff={t.taskDifficulty} dur={t.taskDuration}m est={t.estimatedDuration}m"
+            )
+        else:
+            lines.append(f"{idx:>2}. {mark} {t.taskName}")
+    print("\n".join(lines) if lines else "(no tasks)")
 
 # Quit the program
 def handle_quit(todo_list: TodoList):
