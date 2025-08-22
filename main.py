@@ -22,6 +22,7 @@ def show_help(todoListManager):
     print("  e.g. set <task name> category <new category>")
     print("  e.g. set <task name> description <new description>")
     print("  e.g. set <task name> estimatedDuration <new estimated duration>")
+    print("  stats     - show totals and averages across tasks")
 
 # Add a new task
 def handle_new(todo_list: TodoList):
@@ -214,6 +215,30 @@ def handle_load(todo_list: TodoList):
     else:
         print("Load failed.")
 
+# Show basic statistics
+def handle_stats(todo_list: TodoList):
+    items = list(todo_list.todoList)
+    total = len(items)
+    completed = sum(1 for t in items if t.isCompleted)
+    started = sum(1 for t in items if t.startedAt is not None)
+    # Averages (avoid divide by zero)
+    if total:
+        avg_prio = sum(t.taskPriority for t in items) / total
+        avg_diff = sum(t.taskDifficulty for t in items) / total
+    else:
+        avg_prio = 0.0
+        avg_diff = 0.0
+    total_est = sum((t.estimatedDuration or 0) for t in items)
+    total_dur = sum((t.taskDuration or 0) for t in items)
+    print("Stats:")
+    print(f"  Total tasks: {total}")
+    print(f"  Completed:   {completed}")
+    print(f"  Started:     {started}")
+    print(f"  Avg priority:   {avg_prio:.2f}")
+    print(f"  Avg difficulty: {avg_diff:.2f}")
+    print(f"  Total estimated minutes: {total_est}")
+    print(f"  Total actual minutes:    {total_dur}")
+
 # List tasks (prompt for full in CLI)
 def handle_list(todo_list: TodoList):
     userAsk = input("(f)ull task info? (Otherwise only names): ").strip().lower()
@@ -279,6 +304,7 @@ def main():
         'delete': lambda: handle_delete(todo_list),
         'save': lambda: handle_save(todo_list),
         'load': lambda: handle_load(todo_list),
+        'stats': lambda: handle_stats(todo_list),
         'quit': lambda: handle_quit(todo_list),
     }
 

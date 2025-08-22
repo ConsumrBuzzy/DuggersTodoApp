@@ -11,5 +11,18 @@
         "completedAt": null,
         "createdAt": "2025-08-21 19:37:49",
         "startedAt": null
+    },
+    {
+        "taskName": "task_man",
+        "isCompleted": false,
+        "taskPriority": 0,
+        "taskDifficulty": 0,
+        "taskDuration": 0,
+        "taskCategory": "",
+        "taskDescription": "",
+        "estimatedDuration": 0,
+        "completedAt": null,
+        "createdAt": "2025-08-21 20:03:10",
+        "startedAt": null
     }
 ]
