@@ -29,6 +29,8 @@ def handle_new(todo_list: TodoList):
     if task_name:
         if todo_list.addTodo(task_name):
             print(f"Added: {task_name}")
+            # Auto-save after mutation
+            todo_list.saveTodoList("todoList.json")
         else:
             print("Todo already exists.")
     else:
@@ -45,7 +47,7 @@ def handle_edit(todo_list: TodoList):
         print("Todo not found")
         return
     while True:
-        choice = input("Edit (name|priority|difficulty|duration|category|description|quit): ").strip().lower()
+        choice = input("Edit (name|priority|difficulty|duration|category|description|estimatedDuration|quit): ").strip().lower()
         if choice in ('quit', 'q'):
             break
         elif choice in ('name', 'n'):
@@ -53,6 +55,7 @@ def handle_edit(todo_list: TodoList):
             if new_val:
                 todo.set_name(new_val)
                 print("Name updated.")
+                todo_list.saveTodoList("todoList.json")
             else:
                 print("Name cannot be empty.")
         elif choice in ('priority', 'p'):
@@ -60,6 +63,7 @@ def handle_edit(todo_list: TodoList):
             try:
                 todo.set_priority(int(raw))
                 print("Priority updated.")
+                todo_list.saveTodoList("todoList.json")
             except ValueError:
                 print("Invalid number.")
         elif choice in ('difficulty', 'd'):
@@ -67,6 +71,7 @@ def handle_edit(todo_list: TodoList):
             try:
                 todo.set_difficulty(int(raw))
                 print("Difficulty updated.")
+                todo_list.saveTodoList("todoList.json")
             except ValueError:
                 print("Invalid number.")
         elif choice in ('duration', 'dur'):
@@ -74,14 +79,25 @@ def handle_edit(todo_list: TodoList):
             try:
                 todo.set_duration(int(raw))
                 print("Duration updated.")
+                todo_list.saveTodoList("todoList.json")
             except ValueError:
                 print("Invalid number.")
         elif choice in ('category', 'cat'):
             todo.set_category(input("New category: "))
             print("Category updated.")
+            todo_list.saveTodoList("todoList.json")
         elif choice in ('description', 'desc'):
             todo.set_description(input("New description: "))
             print("Description updated.")
+            todo_list.saveTodoList("todoList.json")
+        elif choice in ('estimatedduration', 'estimated', 'eta', 'ed'):
+            raw = input("New estimated duration (integer minutes): ").strip()
+            try:
+                todo.set_estimated_duration(int(raw))
+                print("Estimated duration updated.")
+                todo_list.saveTodoList("todoList.json")
+            except ValueError:
+                print("Invalid number.")
         else:
             print("Invalid choice.")
 
@@ -95,12 +111,13 @@ def handle_set(todo_list: TodoList):
     if not todo:
         print("Todo not found.")
         return
-    field = input("Field (name|priority|difficulty|duration|category|description): ").strip().lower()
+    field = input("Field (name|priority|difficulty|duration|category|description|estimatedDuration): ").strip().lower()
     if field in ("name", "n"):
         new_val = input("New name: ").strip()
         if new_val:
             todo.set_name(new_val)
             print("Name updated.")
+            todo_list.saveTodoList("todoList.json")
         else:
             print("Name cannot be empty.")
     elif field in ("priority", "p"):
@@ -108,6 +125,7 @@ def handle_set(todo_list: TodoList):
         try:
             todo.set_priority(int(raw))
             print("Priority updated.")
+            todo_list.saveTodoList("todoList.json")
         except ValueError:
             print("Invalid number.")
     elif field in ("difficulty", "d"):
@@ -115,6 +133,7 @@ def handle_set(todo_list: TodoList):
         try:
             todo.set_difficulty(int(raw))
             print("Difficulty updated.")
+            todo_list.saveTodoList("todoList.json")
         except ValueError:
             print("Invalid number.")
     elif field in ("duration", "dur"):
@@ -122,15 +141,26 @@ def handle_set(todo_list: TodoList):
         try:
             todo.set_duration(int(raw))
             print("Duration updated.")
+            todo_list.saveTodoList("todoList.json")
         except ValueError:
             print("Invalid number.")
     elif field in ("category", "cat"):
         todo.set_category(input("New category: "))
         print("Category updated.")
+        todo_list.saveTodoList("todoList.json")
         
     elif field in ("description", "desc"):
         todo.set_description(input("New description: "))
         print("Description updated.")
+        todo_list.saveTodoList("todoList.json")
+    elif field in ("estimatedduration", "estimated", "eta", "ed"):
+        raw = input("New estimated duration (integer minutes): ").strip()
+        try:
+            todo.set_estimated_duration(int(raw))
+            print("Estimated duration updated.")
+            todo_list.saveTodoList("todoList.json")
+        except ValueError:
+            print("Invalid number.")
     else:
         print("Unknown field.")
 
@@ -139,6 +169,7 @@ def handle_complete(todo_list: TodoList):
     task_name = input("Enter a task name to complete: ").strip()
     if todo_list.completeTodo(task_name):
         print("Marked complete.")
+        todo_list.saveTodoList("todoList.json")
     else:
         print("Todo not found.")
 
@@ -147,16 +178,29 @@ def handle_start(todo_list: TodoList):
     task_name = input("Enter a task name to start: ").strip()
     if todo_list.startTodo(task_name):
         print("Started.")
+        todo_list.saveTodoList("todoList.json")
     else:
         print("Todo not found.")
 
 # Delete a task
 def handle_delete(todo_list: TodoList):
     task_name = input("Enter a task name to delete: ").strip()
-    if todo_list.deleteTodo(task_name):
-        print("Deleted.")
-    else:
+    if not task_name:
+        print("Task name cannot be empty.")
+        return
+    todo = todo_list.getTodoByName(task_name)
+    if not todo:
         print("Todo not found.")
+        return
+    confirm = input(f"Are you sure you want to delete '{todo.taskName}'? (y/N): ").strip().lower()
+    if confirm in ("y", "yes"):
+        if todo_list.deleteTodo(todo):
+            print("Deleted.")
+            todo_list.saveTodoList("todoList.json")
+        else:
+            print("Delete failed.")
+    else:
+        print("Delete cancelled.")
 
 # Save the todo list to a file
 def handle_save(todo_list: TodoList):
@@ -185,6 +229,11 @@ def handle_quit(todo_list: TodoList):
 # Main Function
 def main():
     todo_list = TodoList()
+    # Auto-load on startup
+    if todo_list.loadTodoList("todoList.json"):
+        print("Loaded existing todo list from todoList.json")
+    else:
+        print("Starting with an empty todo list.")
 
     print("Dugger's TODO App")
     print("Type 'help' to see commands.")

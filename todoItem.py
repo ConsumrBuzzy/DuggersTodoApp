@@ -44,6 +44,9 @@ class TodoItem:
     def set_description(self, description: str):
         self.taskDescription = description
 
+    def set_estimated_duration(self, estimated: int):
+        self.estimatedDuration = estimated
+
     def completeTask(self):
         self.isCompleted = True
         self.completedAt = datetime.now()
