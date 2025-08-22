@@ -54,9 +54,11 @@ def handle_edit(todo_list: TodoList):
         elif choice in ('name', 'n'):
             new_val = input("New name: ").strip()
             if new_val:
-                todo.set_name(new_val)
-                print("Name updated.")
-                todo_list.saveTodoList("todoList.json")
+                if todo_list.renameTodo(todo.taskName, new_val):
+                    print("Name updated.")
+                    todo_list.saveTodoList("todoList.json")
+                else:
+                    print("Rename failed (duplicate name or not found).")
             else:
                 print("Name cannot be empty.")
         elif choice in ('priority', 'p'):
@@ -116,9 +118,11 @@ def handle_set(todo_list: TodoList):
     if field in ("name", "n"):
         new_val = input("New name: ").strip()
         if new_val:
-            todo.set_name(new_val)
-            print("Name updated.")
-            todo_list.saveTodoList("todoList.json")
+            if todo_list.renameTodo(todo.taskName, new_val):
+                print("Name updated.")
+                todo_list.saveTodoList("todoList.json")
+            else:
+                print("Rename failed (duplicate name or not found).")
         else:
             print("Name cannot be empty.")
     elif field in ("priority", "p"):
