@@ -64,7 +64,12 @@ def handle_edit(todo_list: TodoList):
         elif choice in ('priority', 'p'):
             raw = input("New priority (integer): ").strip()
             try:
-                todo.set_priority(int(raw))
+                val = int(raw)
+                if val < 0:
+                    val = 0
+                if val > 5:
+                    val = 5
+                todo.set_priority(val)
                 print("Priority updated.")
                 todo_list.saveTodoList("todoList.json")
             except ValueError:
@@ -72,7 +77,12 @@ def handle_edit(todo_list: TodoList):
         elif choice in ('difficulty', 'd'):
             raw = input("New difficulty (integer): ").strip()
             try:
-                todo.set_difficulty(int(raw))
+                val = int(raw)
+                if val < 0:
+                    val = 0
+                if val > 5:
+                    val = 5
+                todo.set_difficulty(val)
                 print("Difficulty updated.")
                 todo_list.saveTodoList("todoList.json")
             except ValueError:
@@ -80,7 +90,10 @@ def handle_edit(todo_list: TodoList):
         elif choice in ('duration', 'dur'):
             raw = input("New duration (integer minutes): ").strip()
             try:
-                todo.set_duration(int(raw))
+                val = int(raw)
+                if val < 0:
+                    val = 0
+                todo.set_duration(val)
                 print("Duration updated.")
                 todo_list.saveTodoList("todoList.json")
             except ValueError:
@@ -96,7 +109,10 @@ def handle_edit(todo_list: TodoList):
         elif choice in ('estimatedduration', 'estimated', 'eta', 'ed'):
             raw = input("New estimated duration (integer minutes): ").strip()
             try:
-                todo.set_estimated_duration(int(raw))
+                val = int(raw)
+                if val < 0:
+                    val = 0
+                todo.set_estimated_duration(val)
                 print("Estimated duration updated.")
                 todo_list.saveTodoList("todoList.json")
             except ValueError:
@@ -128,7 +144,12 @@ def handle_set(todo_list: TodoList):
     elif field in ("priority", "p"):
         raw = input("New priority (integer): ").strip()
         try:
-            todo.set_priority(int(raw))
+            val = int(raw)
+            if val < 0:
+                val = 0
+            if val > 5:
+                val = 5
+            todo.set_priority(val)
             print("Priority updated.")
             todo_list.saveTodoList("todoList.json")
         except ValueError:
@@ -136,7 +157,12 @@ def handle_set(todo_list: TodoList):
     elif field in ("difficulty", "d"):
         raw = input("New difficulty (integer): ").strip()
         try:
-            todo.set_difficulty(int(raw))
+            val = int(raw)
+            if val < 0:
+                val = 0
+            if val > 5:
+                val = 5
+            todo.set_difficulty(val)
             print("Difficulty updated.")
             todo_list.saveTodoList("todoList.json")
         except ValueError:
@@ -144,7 +170,10 @@ def handle_set(todo_list: TodoList):
     elif field in ("duration", "dur"):
         raw = input("New duration (integer minutes): ").strip()
         try:
-            todo.set_duration(int(raw))
+            val = int(raw)
+            if val < 0:
+                val = 0
+            todo.set_duration(val)
             print("Duration updated.")
             todo_list.saveTodoList("todoList.json")
         except ValueError:
@@ -161,7 +190,10 @@ def handle_set(todo_list: TodoList):
     elif field in ("estimatedduration", "estimated", "eta", "ed"):
         raw = input("New estimated duration (integer minutes): ").strip()
         try:
-            todo.set_estimated_duration(int(raw))
+            val = int(raw)
+            if val < 0:
+                val = 0
+            todo.set_estimated_duration(val)
             print("Estimated duration updated.")
             todo_list.saveTodoList("todoList.json")
         except ValueError:
