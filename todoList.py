@@ -1,6 +1,7 @@
 from todoItem import TodoItem
 from datetime import datetime
 import json
+import os
 
 class TodoList:
     
@@ -78,13 +79,18 @@ class TodoList:
                 'createdAt': t.createdAt.strftime("%Y-%m-%d %H:%M:%S") if t.createdAt else None,
                 'startedAt': t.startedAt.strftime("%Y-%m-%d %H:%M:%S") if t.startedAt else None,
             })
-        with open(filename, "w") as file:
+        tmp_filename = f"{filename}.tmp"
+        with open(tmp_filename, "w", encoding="utf-8", newline="\n") as file:
             json.dump(serializable, file, indent=4)
+            file.flush()
+            os.fsync(file.fileno())
+        # Atomic replace
+        os.replace(tmp_filename, filename)
         
     # Load Todo List
     def loadTodoList(self,filename):
         try:
-            with open(filename, "r") as file:
+            with open(filename, "r", encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
             print("No saved todo list found.")
