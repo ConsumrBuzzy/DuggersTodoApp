@@ -46,6 +46,21 @@ class TodoList:
                     return t
             return None
     
+    # Rename Todo with uniqueness check
+    def renameTodo(self, old_name: str, new_name: str) -> bool:
+        if not new_name:
+            return False
+        target = self.getTodoByName(old_name)
+        if not target:
+            return False
+        # Check for collision (case-insensitive) excluding the target itself
+        new_lower = new_name.lower()
+        for t in self.todoList:
+            if t is not target and t.taskName.lower() == new_lower:
+                return False
+        target.taskName = new_name
+        return True
+    
     # Save Todo List
     def saveTodoList(self,filename):
         serializable = []
